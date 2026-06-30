@@ -28,7 +28,7 @@
     <div class="sheet-bar"><button type="button" class="sheet-tab active">Портфель полисов</button><button type="button" class="sheet-tab" id="refTab">Справочник</button></div>
   </div>
   <div class="toast" id="toast"></div>
-  <div class="modal-overlay" id="modalWelcome"><div class="modal"><div class="modal-body"><p style="margin:0 0 10px;line-height:1.45;font-weight:600">Добро пожаловать в тренажёр!</p><p style="margin:0;line-height:1.5">Сейчас вы закрепите логические функции: ЕСЛИ, И, ИЛИ, СУММЕСЛИ, СУММЕСЛИМН, СЧЁТЕСЛИ и СЧЁТЕСЛИМН.</p></div><div class="modal-footer"><button type="button" id="btnWelcomeOk">Начать</button></div></div></div>
+  <div class="modal-overlay" id="modalWelcome"><div class="modal"><div class="modal-body"><p style="margin:0 0 10px;line-height:1.45;font-weight:600">Добро пожаловать в тренажёр!</p><p style="margin:0;line-height:1.5">Сейчас вы закрепите логические функции: ЕСЛИ, И, ИЛИ, СУММЕСЛИ, СЧЁТЕСЛИ и СЧЁТЕСЛИМН.</p></div><div class="modal-footer"><button type="button" id="btnWelcomeOk">Начать</button></div></div></div>
   <div class="modal-overlay" id="modalComplete"><div class="modal"><div class="modal-body"><p id="completeMessage" style="margin:0;line-height:1.5;font-weight:600"></p></div><div class="modal-footer"><button type="button" id="btnCompleteOk">OK</button></div></div></div>
 <script>
 (function(){
@@ -67,11 +67,10 @@
     {id:'if',resultRow:8,text:'В ячейке <b>B9</b> напишите формулу ЕСЛИ, которая проверяет первую премию (C2): если премия больше 20000, вывести "Крупная", иначе "Мелкая".',fnNames:['IF','ЕСЛИ'],check(sh){const raw=getRawCell(sh,8,1);return isFormulaValue(raw)&&formulaUsesFn(raw,this.fnNames)&&['Крупная','Мелкая'].includes(getCellComputed(sh,8,1));}},
     {id:'or',resultRow:9,text:'В <b>B10</b> с помощью ИЛИ проверьте: выплата по первому полису больше 20000 ИЛИ статус E2 = "В работе". Выведите "Да" или "Нет".',fnNames:['OR','ИЛИ'],check(sh){const raw=getRawCell(sh,9,1);return isFormulaValue(raw)&&formulaUsesFn(raw,this.fnNames)&&['Да','Нет'].includes(getCellComputed(sh,9,1));}},
     {id:'sumif',resultRow:10,text:'В <b>B11</b> подсчитайте сумму премий только для полисов ОСАГО: в столбце A ищите "ОСАГО", суммируйте C2:C7. Используйте СУММЕСЛИ.',fnNames:['SUMIF','СУММЕСЛИ'],expected:24200},
-    {id:'sumifs',resultRow:11,text:'В <b>B12</b> подсчитайте общую сумму выплат за март 2026: выплаты D2:D7, даты F2:F7, условие дата >= 01.03.2026. Используйте СУММЕСЛИМН.',fnNames:['SUMIFS','СУММЕСЛИМН'],expected:17100},
     {id:'countif',resultRow:8,resultCol:2,text:'В <b>C9</b> подсчитайте количество полисов со статусом "Урегулирован" (столбец E). Используйте СЧЁТЕСЛИ.',fnNames:['COUNTIF','СЧЁТЕСЛИ'],expected:3},
     {id:'countifs',resultRow:9,resultCol:2,text:'В <b>C10</b> подсчитайте количество полисов ОСАГО со статусом "Урегулирован". Используйте СЧЁТЕСЛИМН по столбцам A и E.',fnNames:['COUNTIFS','СЧЁТЕСЛИМН'],expected:1}
   ];
-  const COMPLETE='Отлично! Вы применили логические функции ЕСЛИ, ИЛИ, СУММЕСЛИ, СУММЕСЛИМН, СЧЁТЕСЛИ и СЧЁТЕСЛИМН к портфелю полисов.';
+  const COMPLETE='Отлично! Вы применили логические функции ЕСЛИ, ИЛИ, СУММЕСЛИ, СЧЁТЕСЛИ и СЧЁТЕСЛИМН к портфелю полисов.';
 
   function isFormulaValue(v){return typeof v==='string'&&v.trim().charAt(0)==='=';}
   function getRawCell(sh,r,c){return sh.rows[r]&&sh.rows[r][c]!==undefined?sh.rows[r][c]:'';}
