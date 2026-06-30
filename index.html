@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#217346">
+  <title>Практика: логические функции Excel</title>
+  <style>
+    *{box-sizing:border-box}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{margin:0;min-height:100vh;min-height:100dvh;font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:#e7e7e7;color:#222;display:flex;flex-direction:column;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+    .task-banner{background:#fff;border:1px solid #c6c6c6;border-radius:6px;padding:12px 14px;margin:0 auto 8px;box-shadow:0 1px 4px rgba(0,0,0,.06);max-width:960px;width:100%}.task-banner.success{background:#e8f5e9;border-color:#a5d6a7}.task-banner p{margin:0;font-size:.96rem;line-height:1.45}.task-banner b{color:#217346}
+    .excel-shell{flex:1;display:flex;flex-direction:column;min-height:0;background:#fff;border:1px solid #a0a0a0;border-radius:3px;overflow:hidden;max-width:960px;width:100%;margin:0 auto}.title-bar{display:flex;align-items:center;gap:8px;padding:5px 8px;background:linear-gradient(180deg,#fff 0%,#f3f3f3 100%);border-bottom:1px solid #d4d4d4;flex-wrap:wrap}.quick-access{display:flex;gap:2px}.quick-access button{width:28px;height:24px;border:1px solid transparent;background:transparent;border-radius:2px;cursor:pointer;font-size:14px}.quick-access button:hover{background:#e5e5e5;border-color:#c6c6c6}.doc-title{flex:1;text-align:center;font-size:13px;color:#333;min-width:150px}
+    .ribbon-wrap{background:#f3f3f3;border-bottom:1px solid #d4d4d4}.ribbon-tabs{display:flex;flex-wrap:wrap;padding:0 4px;border-bottom:1px solid #d4d4d4}.ribbon-tabs button{padding:6px 12px 8px;font-size:12px;border:none;background:transparent;cursor:pointer;color:#444;font-family:inherit}.ribbon-tabs button.active{background:#fff;color:#217346;font-weight:600;border:1px solid #d4d4d4;border-bottom-color:#fff;margin-bottom:-1px}.ribbon-panel{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;padding:8px 10px 10px;background:#fff;min-height:58px}.ribbon-group{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 10px 4px;border-right:1px solid #e0e0e0}.ribbon-group:last-child{border-right:none}.ribbon-row{display:flex;gap:4px;flex-wrap:wrap}.g-label{font-size:11px;color:#666}.rb{padding:6px 10px;font-size:12px;border:1px solid #c6c6c6;background:linear-gradient(180deg,#fafafa 0%,#ececec 100%);border-radius:2px;cursor:pointer;font-family:inherit;min-height:28px}.rb:hover{background:#fff}.rb.primary{background:linear-gradient(180deg,#e8f4ec 0%,#cde6d4 100%);border-color:#217346}.fmt-select{min-width:145px;padding:4px 8px;font-size:12px;border:1px solid #c6c6c6;border-radius:2px;background:#fff;font-family:inherit}
+    .formula-bar{display:flex;align-items:center;gap:6px;padding:4px 8px;background:#fff;border-bottom:1px solid #d4d4d4;font-size:12px}.name-box{width:72px;padding:3px 6px;border:1px solid #c6c6c6;border-radius:2px;background:#fff;text-align:center;font-family:inherit}.fx-label{color:#888;font-style:italic;width:22px;text-align:center}.formula-input{flex:1;padding:4px 8px;border:1px solid #c6c6c6;border-radius:2px;font-family:inherit;font-size:12px}
+    .grid-scroll{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;background:#fcfcfc;min-height:240px}table.excel{border-collapse:collapse;font-size:12px;user-select:none;table-layout:fixed}table.excel th,table.excel td{width:105px;min-width:80px;height:26px;border:1px solid #d4d4d4;padding:2px 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}table.excel thead th{background:#217346;color:#fff;font-weight:600;text-align:center}table.excel tbody th{background:#e8e8e8;color:#333;font-weight:600;text-align:center;width:42px;min-width:42px}table.excel tbody td{position:relative;background:#fff;cursor:text;text-align:right}table.excel tbody td.text-left{text-align:left}table.excel tbody td.range-active{outline:2px solid #217346;outline-offset:-2px;z-index:1}.cell-inline-input{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;border:none;outline:none;padding:2px 4px;margin:0;font:inherit;font-size:12px;line-height:20px;background:#fff;color:#222;caret-color:#222;z-index:2;text-align:right;border-radius:0;-webkit-appearance:none;appearance:none}.cell-inline-input:focus{border:none;outline:none;box-shadow:none;background:#fff}.text-left .cell-inline-input{text-align:left}
+    .sheet-bar{display:flex;align-items:flex-end;background:#e1e1e1;border-top:1px solid #b4b4b4;padding:2px 4px 0}.sheet-tab{padding:5px 14px 6px;font-size:12px;border:1px solid #b4b4b4;border-bottom:none;background:linear-gradient(180deg,#ececec 0%,#d8d8d8 100%);cursor:pointer;font-family:inherit;border-radius:2px 2px 0 0;margin-right:1px}.sheet-tab.active{background:#fff;font-weight:600;padding-bottom:7px;margin-bottom:-1px}
+    .toast{position:fixed;top:50%;left:50%;z-index:1200;max-width:min(92vw,460px);padding:14px 18px;border-radius:8px;font-size:13px;line-height:1.45;color:#1a1a1a;background:#fff;border:1px solid #b4b4b4;box-shadow:0 12px 40px rgba(0,0,0,.2);transform:translate(-50%,-50%) scale(.96);opacity:0;visibility:hidden;pointer-events:none;transition:.22s}.toast.visible{transform:translate(-50%,-50%) scale(1);opacity:1;visibility:visible}.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1100;display:none;align-items:center;justify-content:center;padding:16px}.modal-overlay.visible{display:flex}.modal{background:#fff;border:1px solid #a0a0a0;border-radius:3px;box-shadow:0 4px 24px rgba(0,0,0,.2);max-width:420px;width:100%;font-size:13px}.modal-body{padding:16px}.modal-footer{padding:10px 12px;border-top:1px solid #d4d4d4;display:flex;justify-content:flex-end;background:#fafafa}.modal-footer button{padding:7px 16px;font-size:12px;cursor:pointer;font-family:inherit;border-radius:2px;border:1px solid #217346;background:#cde6d4;font-weight:600}
+    @media (max-width:768px){.formula-input,.cell-inline-input,.name-box{font-size:16px!important}table.excel th,table.excel td{width:92px;min-width:72px;height:30px}.ribbon-tabs button{padding:4px 8px;font-size:11px}.ribbon-panel{padding:5px 6px;min-height:0}.rb{padding:5px 7px;font-size:11px}}
+  </style>
+</head>
+<body>
+  <div class="task-banner" id="taskBanner"><p id="taskText"></p></div>
+  <div class="excel-shell">
+    <div class="title-bar"><div class="quick-access"><button type="button" title="Сохранить">💾</button><button type="button" title="Отменить">↶</button><button type="button" title="Вернуть">↷</button></div><div class="doc-title">Книга1 — Excel (тренажёр: логические функции)</div></div>
+    <div class="ribbon-wrap"><div class="ribbon-tabs"><button type="button" class="active">Главная</button><button type="button">Вставка</button><button type="button">Разметка страницы</button><button type="button">Формулы</button><button type="button">Данные</button><button type="button">Вид</button></div><div class="ribbon-panel"><div class="ribbon-group"><div class="ribbon-row"><button type="button" class="rb"><b>B</b></button><button type="button" class="rb"><i>I</i></button></div><span class="g-label">Шрифт</span></div><div class="ribbon-group"><div class="ribbon-row"><select class="fmt-select"><option>Общий</option><option>Числовой</option><option>Денежный</option><option>Процентный</option><option>Дата</option><option>Текстовый</option></select></div><span class="g-label">Число</span></div><div class="ribbon-group"><div class="ribbon-row"><button type="button" class="rb primary">fx Вставить функцию</button><button type="button" class="rb">∑ Автосумма</button></div><span class="g-label">Формулы</span></div></div></div>
+    <div class="formula-bar"><input class="name-box" id="nameBox" readonly value="B9"><span class="fx-label">fx</span><input class="formula-input" id="formulaInput" autocomplete="off" spellcheck="false"></div>
+    <div class="grid-scroll" id="gridScroll" tabindex="0"><table class="excel" id="grid"></table></div>
+    <div class="sheet-bar"><button type="button" class="sheet-tab active">Портфель полисов</button><button type="button" class="sheet-tab" id="refTab">Справочник</button></div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <div class="modal-overlay" id="modalWelcome"><div class="modal"><div class="modal-body"><p style="margin:0 0 10px;line-height:1.45;font-weight:600">Добро пожаловать в тренажёр!</p><p style="margin:0;line-height:1.5">Сейчас вы закрепите логические функции: ЕСЛИ, И, ИЛИ, СУММЕСЛИ, СУММЕСЛИМН, СЧЁТЕСЛИ и СЧЁТЕСЛИМН.</p></div><div class="modal-footer"><button type="button" id="btnWelcomeOk">Начать</button></div></div></div>
+  <div class="modal-overlay" id="modalComplete"><div class="modal"><div class="modal-body"><p id="completeMessage" style="margin:0;line-height:1.5;font-weight:600"></p></div><div class="modal-footer"><button type="button" id="btnCompleteOk">OK</button></div></div></div>
+<script>
+(function(){
+  const COLS=6, ROWS=12, RESULT_COL=1;
+  const colLabel=i=>String.fromCharCode(65+i);
+  const cellKey=(r,c)=>r+','+c;
+  const taskBanner=document.getElementById('taskBanner');
+  const taskText=document.getElementById('taskText');
+  const grid=document.getElementById('grid');
+  const gridScroll=document.getElementById('gridScroll');
+  const nameBox=document.getElementById('nameBox');
+  const formulaInput=document.getElementById('formulaInput');
+  const toast=document.getElementById('toast');
+  let selR=8, selC=1, activeIndex=0, functionStep=0, cellEditorInput=null, toastTimer=null;
+
+  function emptyRows(){return Array.from({length:ROWS},()=>Array.from({length:COLS},()=>''));}
+  function buildRows(){
+    const r=emptyRows();
+    r[0]=['Вид','Полис №','Премия, руб.','Выплата, руб.','Статус','Дата убытка'];
+    r[1]=['ОСАГО','СП-101',12400,8500,'Урегулирован','10.01.2026'];
+    r[2]=['КАСКО','СП-102',67800,0,'Без убытка',''];
+    r[3]=['Имущество','СП-103',15200,32000,'Урегулирован','22.02.2026'];
+    r[4]=['ДМС','СП-104',9400,2100,'Урегулирован','05.03.2026'];
+    r[5]=['ОСАГО','СП-105',11800,15000,'В работе','15.03.2026'];
+    r[6]=['КАСКО','СП-106',45000,0,'Без убытка',''];
+    r[8]=['Категория премии:','','','','',''];
+    r[9]=['Крупный убыток?','','','','',''];
+    r[10]=['Премий ОСАГО:','','','','',''];
+    r[11]=['Выплат в марте:','','','','',''];
+    return r;
+  }
+  function buildRef(){const r=emptyRows();r[0]=['Вид','Коэффициент'];r[1]=['ОСАГО',1];r[2]=['КАСКО',1.5];r[3]=['Имущество',1.2];r[4]=['ДМС',0.8];return r;}
+  const sheets=[{name:'Портфель полисов',rows:buildRows(),formats:{}},{name:'Справочник',rows:buildRef(),formats:{}}];
+
+  const TASKS=[
+    {id:'if',resultRow:8,text:'В ячейке <b>B9</b> напишите формулу ЕСЛИ, которая проверяет первую премию (C2): если премия больше 20000, вывести "Крупная", иначе "Мелкая".',fnNames:['IF','ЕСЛИ'],check(sh){const raw=getRawCell(sh,8,1);return isFormulaValue(raw)&&formulaUsesFn(raw,this.fnNames)&&['Крупная','Мелкая'].includes(getCellComputed(sh,8,1));}},
+    {id:'or',resultRow:9,text:'В <b>B10</b> с помощью ИЛИ проверьте: выплата по первому полису больше 20000 ИЛИ статус E2 = "В работе". Выведите "Да" или "Нет".',fnNames:['OR','ИЛИ'],check(sh){const raw=getRawCell(sh,9,1);return isFormulaValue(raw)&&formulaUsesFn(raw,this.fnNames)&&['Да','Нет'].includes(getCellComputed(sh,9,1));}},
+    {id:'sumif',resultRow:10,text:'В <b>B11</b> подсчитайте сумму премий только для полисов ОСАГО: в столбце A ищите "ОСАГО", суммируйте C2:C7. Используйте СУММЕСЛИ.',fnNames:['SUMIF','СУММЕСЛИ'],expected:24200},
+    {id:'sumifs',resultRow:11,text:'В <b>B12</b> подсчитайте общую сумму выплат за март 2026: выплаты D2:D7, даты F2:F7, условие дата >= 01.03.2026. Используйте СУММЕСЛИМН.',fnNames:['SUMIFS','СУММЕСЛИМН'],expected:17100},
+    {id:'countif',resultRow:8,resultCol:2,text:'В <b>C9</b> подсчитайте количество полисов со статусом "Урегулирован" (столбец E). Используйте СЧЁТЕСЛИ.',fnNames:['COUNTIF','СЧЁТЕСЛИ'],expected:3},
+    {id:'countifs',resultRow:9,resultCol:2,text:'В <b>C10</b> подсчитайте количество полисов ОСАГО со статусом "Урегулирован". Используйте СЧЁТЕСЛИМН по столбцам A и E.',fnNames:['COUNTIFS','СЧЁТЕСЛИМН'],expected:1}
+  ];
+  const COMPLETE='Отлично! Вы применили логические функции ЕСЛИ, ИЛИ, СУММЕСЛИ, СУММЕСЛИМН, СЧЁТЕСЛИ и СЧЁТЕСЛИМН к портфелю полисов.';
+
+  function isFormulaValue(v){return typeof v==='string'&&v.trim().charAt(0)==='=';}
+  function getRawCell(sh,r,c){return sh.rows[r]&&sh.rows[r][c]!==undefined?sh.rows[r][c]:'';}
+  function refToRC(ref){const m=String(ref).trim().toUpperCase().match(/^([A-Z]+)(\d+)$/);if(!m)return null;let col=0;for(let i=0;i<m[1].length;i++)col=col*26+(m[1].charCodeAt(i)-64);return{r:Number(m[2])-1,c:col-1};}
+  function rcToRef(r,c){return colLabel(c)+(r+1);}
+  function parseRangeRef(s){const p=String(s).trim().toUpperCase().split(':');const a=refToRC(p[0]);if(!a)return null;if(p.length===1)return{r0:a.r,r1:a.r,c0:a.c,c1:a.c};const b=refToRC(p[1]);if(!b)return null;return{r0:Math.min(a.r,b.r),r1:Math.max(a.r,b.r),c0:Math.min(a.c,b.c),c1:Math.max(a.c,b.c)};}
+  function getNumericCell(sh,r,c,stack){const v=getRawCell(sh,r,c);if(isFormulaValue(v))return evaluateFormula(sh,v,stack);if(typeof v==='number')return v;const n=parseFloat(String(v).replace(/\s/g,'').replace(',','.'));return isNaN(n)?NaN:n;}
+  function getStringCell(sh,r,c){const v=getRawCell(sh,r,c);if(isFormulaValue(v)){const res=evaluateFormula(sh,v);return typeof res==='string'?res:String(res);}return String(v);}
+  function getCellComputed(sh,r,c){const v=getRawCell(sh,r,c);if(isFormulaValue(v))return evaluateFormula(sh,v);return typeof v==='number'?v:String(v);}
+  function near(a,b){return typeof a==='number'&&isFinite(a)&&Math.abs(a-b)<.5;}
+  function formulaUsesFn(raw,names){if(!isFormulaValue(raw))return false;const body=String(raw).trim().slice(1).toUpperCase();return names.some(n=>body.indexOf(n.toUpperCase()+'(')>=0||body.indexOf(n.toUpperCase())===0);}
+
+  function splitArgs(str){
+    const args=[];let depth=0,current='',inQuotes=false;
+    for(let i=0;i<str.length;i++){
+      const ch=str[i];
+      if(ch==='"'){inQuotes=!inQuotes;current+=ch;continue;}
+      if(!inQuotes&&ch==='('){depth++;current+=ch;continue;}
+      if(!inQuotes&&ch===')'){depth--;current+=ch;continue;}
+      if(!inQuotes&&ch===';'&&depth===0){args.push(current.trim());current='';continue;}
+      current+=ch;
+    }
+    if(current.trim()||str.endsWith(';'))args.push(current.trim());
+    return args;
+  }
+  function splitFunctionCall(body){
+    const m=String(body).trim().match(/^([A-ZА-ЯЁ]+)\s*\((.*)\)$/i);
+    if(!m)return null;
+    return {name:m[1].toUpperCase(),args:splitArgs(m[2])};
+  }
+  function parseConditionArg(arg){
+    const s=String(arg).trim();
+    const q=s.match(/^"(.*)"$/);if(q)return{type:'string',value:q[1]};
+    const opm=s.match(/^(>=|<=|<>|>|<|=)(.*)$/);let op='',val=s;
+    if(opm){op=opm[1];val=opm[2].trim();}
+    const q2=val.match(/^"(.*)"$/);if(q2)val=q2[1];
+    const d=parseDateValue(val);if(d)return{type:'date',op,value:d};
+    const n=parseFloat(String(val).replace(',','.'));if(!isNaN(n)&&String(val).trim()!=='')return{type:'number',op,value:n};
+    return{type:'string',op,value:val};
+  }
+  function matchCondition(cellValue,cond){
+    const sv=String(cellValue).trim();
+    if(cond.type==='string'){
+      if(cond.value.includes('*')||cond.value.includes('?')){const re=new RegExp('^'+cond.value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/\\\*/g,'.*').replace(/\\\?/g,'.')+'$','i');return re.test(sv);}
+      if(cond.op==='<>')return sv.toLowerCase()!==String(cond.value).toLowerCase();
+      return sv.toLowerCase()===String(cond.value).toLowerCase();
+    }
+    if(cond.type==='number'){
+      const n=parseFloat(sv.replace(',','.'));if(isNaN(n))return false;
+      if(cond.op==='>')return n>cond.value;if(cond.op==='<')return n<cond.value;if(cond.op==='>=')return n>=cond.value;if(cond.op==='<=')return n<=cond.value;if(cond.op==='<>')return n!==cond.value;return n===cond.value;
+    }
+    if(cond.type==='date'){
+      const d=parseDateValue(sv);if(!d)return false;
+      if(cond.op==='>')return d>cond.value;if(cond.op==='<')return d<cond.value;if(cond.op==='>=')return d>=cond.value;if(cond.op==='<=')return d<=cond.value;if(cond.op==='<>')return d.getTime()!==cond.value.getTime();return d.getTime()===cond.value.getTime();
+    }
+    return false;
+  }
+  function evaluateFormula(sh,formula,stack){
+    if(!stack)stack=new Set();
+    const body=String(formula).trim().slice(1).trim();
+    const call=splitFunctionCall(body);if(!call)return evaluateSingleValue(sh,body,stack);
+    const fn=call.name,args=call.args;
+    if(fn==='IF'||fn==='ЕСЛИ'){
+      if(args.length<3)return NaN;
+      const part=evaluateConditionExpr(sh,args[0],stack)?args[1]:args[2];
+      return evaluateReturnValue(sh,part,stack);
+    }
+    if(fn==='AND'||fn==='И')return args.every(a=>evaluateConditionExpr(sh,a,stack));
+    if(fn==='OR'||fn==='ИЛИ')return args.some(a=>evaluateConditionExpr(sh,a,stack));
+    if(fn==='SUMIF'||fn==='СУММЕСЛИ'){
+      const rg=parseRangeRef(args[0]), cond=parseConditionArg(args[1]), srg=parseRangeRef(args[2]||args[0]);if(!rg||!srg)return 0;let total=0;
+      for(let i=0;i<=rg.r1-rg.r0;i++){const check=getStringCell(sh,rg.r0+i,rg.c0);const sum=getNumericCell(sh,srg.r0+i,srg.c0,stack);if(matchCondition(check,cond)&&isFinite(sum))total+=sum;}return total;
+    }
+    if(fn==='SUMIFS'||fn==='СУММЕСЛИМН'){
+      if(args.length<3||args.length%2!==1)return 0;const srg=parseRangeRef(args[0]);if(!srg)return 0;const pairs=[];for(let i=1;i<args.length;i+=2)pairs.push({range:parseRangeRef(args[i]),cond:parseConditionArg(args[i+1])});let total=0;
+      for(let i=0;i<=srg.r1-srg.r0;i++){let ok=true;for(const p of pairs){if(!p.range||!matchCondition(getStringCell(sh,p.range.r0+i,p.range.c0),p.cond)){ok=false;break;}}if(ok){const sum=getNumericCell(sh,srg.r0+i,srg.c0,stack);if(isFinite(sum))total+=sum;}}return total;
+    }
+    if(fn==='COUNTIF'||fn==='СЧЁТЕСЛИ'||fn==='СЧЕТЕСЛИ'){
+      const rg=parseRangeRef(args[0]),cond=parseConditionArg(args[1]);if(!rg)return 0;let count=0;for(let r=rg.r0;r<=rg.r1;r++)for(let c=rg.c0;c<=rg.c1;c++)if(matchCondition(getStringCell(sh,r,c),cond))count++;return count;
+    }
+    if(fn==='COUNTIFS'||fn==='СЧЁТЕСЛИМН'||fn==='СЧЕТЕСЛИМН'){
+      if(args.length<2||args.length%2!==0)return 0;const pairs=[];for(let i=0;i<args.length;i+=2)pairs.push({range:parseRangeRef(args[i]),cond:parseConditionArg(args[i+1])});const rg0=pairs[0].range;if(!rg0)return 0;let count=0;for(let i=0;i<=rg0.r1-rg0.r0;i++){let ok=true;for(const p of pairs){if(!p.range||!matchCondition(getStringCell(sh,p.range.r0+i,p.range.c0),p.cond)){ok=false;break;}}if(ok)count++;}return count;
+    }
+    if(fn==='SUM'||fn==='СУММ')return rangeNumbers(sh,args[0],stack).reduce((a,b)=>a+b,0);
+    return NaN;
+  }
+  function evaluateReturnValue(sh,expr,stack){
+    const t=String(expr).trim();
+    if(t.startsWith('"')&&t.endsWith('"'))return t.slice(1,-1); // ВАЖНО: регистр текста сохраняется
+    if(t.charAt(0)==='=')return evaluateFormula(sh,t,stack);
+    const asCall=splitFunctionCall(t);if(asCall)return evaluateFormula(sh,'='+t,stack);
+    const n=parseFloat(t.replace(',','.'));if(!isNaN(n)&&/^[\s\d.,+-eE]+$/.test(t))return n;
+    return evaluateSingleValue(sh,t,stack);
+  }
+  function evaluateConditionExpr(sh,expr,stack){
+    const trimmed=String(expr).trim();
+    const call=splitFunctionCall(trimmed);
+    if(call&&(call.name==='AND'||call.name==='И'))return call.args.every(a=>evaluateConditionExpr(sh,a,stack));
+    if(call&&(call.name==='OR'||call.name==='ИЛИ'))return call.args.some(a=>evaluateConditionExpr(sh,a,stack));
+    const comp=splitComparison(trimmed);
+    if(comp){
+      const left=evaluateSingleValue(sh,comp.left,stack), right=evaluateSingleValue(sh,comp.right,stack), op=comp.op;
+      if(left instanceof Date||right instanceof Date){const l=left instanceof Date?left:parseDateValue(left),r=right instanceof Date?right:parseDateValue(right);if(!l||!r)return false;return compareValues(l.getTime(),r.getTime(),op);}
+      if(typeof left==='string'||typeof right==='string'){const l=String(left),r=String(right);if(op==='=')return l.toLowerCase()===r.toLowerCase();if(op==='<>')return l.toLowerCase()!==r.toLowerCase();return false;}
+      const nl=Number(left),nr=Number(right);if(isNaN(nl)||isNaN(nr))return false;return compareValues(nl,nr,op);
+    }
+    const val=evaluateSingleValue(sh,trimmed,stack);if(typeof val==='boolean')return val;if(typeof val==='number')return val!==0;if(typeof val==='string')return val.length>0;return false;
+  }
+  function splitComparison(expr){let depth=0,inQuotes=false;const ops=['>=','<=','<>','>','<','='];for(let i=0;i<expr.length;i++){const ch=expr[i];if(ch==='"')inQuotes=!inQuotes;else if(!inQuotes&&ch==='(')depth++;else if(!inQuotes&&ch===')')depth--;else if(!inQuotes&&depth===0){for(const op of ops){if(expr.slice(i,i+op.length)===op)return{left:expr.slice(0,i).trim(),op,right:expr.slice(i+op.length).trim()};}}}return null;}
+  function compareValues(a,b,op){if(op==='=')return a===b;if(op==='<>')return a!==b;if(op==='>')return a>b;if(op==='<')return a<b;if(op==='>=')return a>=b;if(op==='<=')return a<=b;return false;}
+  function evaluateSingleValue(sh,expr,stack){
+    const t=String(expr).trim();if(t.startsWith('"')&&t.endsWith('"'))return t.slice(1,-1);
+    const d=parseDateValue(t);if(d)return d;
+    const n=parseFloat(t.replace(',','.'));if(!isNaN(n)&&/^[\s\d.,+-eE]+$/.test(t))return n;
+    const ref=refToRC(t);if(ref){const key=cellKey(ref.r,ref.c);if(stack.has(key))return 0;stack.add(key);const raw=getRawCell(sh,ref.r,ref.c);const res=isFormulaValue(raw)?evaluateFormula(sh,raw,stack):(typeof raw==='number'?raw:(parseFloat(String(raw).replace(',','.'))||String(raw)));stack.delete(key);return res;}
+    const call=splitFunctionCall(t);if(call)return evaluateFormula(sh,'='+t,stack);
+    return t;
+  }
+  function rangeNumbers(sh,range,stack){const rg=parseRangeRef(range);if(!rg)return[];const out=[];for(let r=rg.r0;r<=rg.r1;r++)for(let c=rg.c0;c<=rg.c1;c++){const n=getNumericCell(sh,r,c,stack);if(isFinite(n))out.push(n);}return out;}
+  function parseDateValue(v){if(v instanceof Date&&!isNaN(v))return v;const s=String(v).trim();const m=s.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})$/);if(!m)return null;const d=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]));return d.getFullYear()===Number(m[3])&&d.getMonth()===Number(m[2])-1&&d.getDate()===Number(m[1])?d:null;}
+
+  function normalizeInput(text){const raw=String(text),t=raw.trim();if(t.charAt(0)==='=')return t;if(raw.charAt(0)==="'")return raw.slice(1);if(t==='')return'';const num=parseFloat(t.replace(/\s/g,'').replace(',','.'));if(!isNaN(num)&&/^[\s\d.,+-eE]+$/.test(t))return num;return t;}
+  function rawToFormulaString(sh,r,c){const v=getRawCell(sh,r,c);return v==null?'':String(v);}
+  function formatCellDisplay(sh,r,c){const v=getRawCell(sh,r,c);if(v===''||v==null)return'';if(isFormulaValue(v)){const res=getCellComputed(sh,r,c);if(typeof res==='number'&&isFinite(res))return res.toLocaleString('ru-RU',{maximumFractionDigits:2});if(typeof res==='string')return res;return '#ОШИБКА!';}return String(v);}
+
+  function renderGrid(){
+    const sh=sheets[activeIndex];grid.innerHTML='';
+    const thead=document.createElement('thead'),hr=document.createElement('tr');hr.appendChild(document.createElement('th'));for(let c=0;c<COLS;c++){const th=document.createElement('th');th.textContent=colLabel(c);hr.appendChild(th);}thead.appendChild(hr);grid.appendChild(thead);
+    const tbody=document.createElement('tbody');
+    for(let r=0;r<ROWS;r++){const tr=document.createElement('tr');const th=document.createElement('th');th.textContent=r+1;tr.appendChild(th);for(let c=0;c<COLS;c++){const td=document.createElement('td');td.dataset.r=r;td.dataset.c=c;td.textContent=formatCellDisplay(sh,r,c);const v=getRawCell(sh,r,c);if(c<2||typeof v==='string'&&!isFormulaValue(v)&&isNaN(parseFloat(v)))td.classList.add('text-left');if(r===selR&&c===selC)td.classList.add('range-active');tr.appendChild(td);}tbody.appendChild(tr);}grid.appendChild(tbody);syncFormulaBar();}
+  function syncFormulaBar(){const sh=sheets[activeIndex];nameBox.value=rcToRef(selR,selC);if(!cellEditorInput)formulaInput.value=rawToFormulaString(sh,selR,selC);}
+  function commitValue(value){const sh=sheets[activeIndex];sh.rows[selR][selC]=normalizeInput(value);cellEditorInput=null;renderGrid();checkProgress();}
+  function startCellEditor(r,c,initial){
+    selR=r;selC=c;
+    renderGrid();
+    const td=grid.querySelector(`td[data-r="${r}"][data-c="${c}"]`);
+    if(!td)return;
+    td.classList.add('editing-cell');
+    const inp=document.createElement('input');
+    inp.type='text';
+    inp.className='cell-inline-input';
+    inp.autocomplete='off';
+    inp.spellcheck=false;
+    inp.value=initial!==undefined?String(initial):rawToFormulaString(sheets[activeIndex],r,c);
+    td.appendChild(inp);
+    cellEditorInput=inp;
+    formulaInput.value=inp.value;
+    inp.addEventListener('input',()=>formulaInput.value=inp.value);
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){e.preventDefault();commitValue(inp.value);}
+      else if(e.key==='Escape'){e.preventDefault();cellEditorInput=null;renderGrid();}
+    });
+    inp.addEventListener('blur',()=>{if(cellEditorInput===inp)commitValue(inp.value);});
+    // Два кадра + setTimeout нужны для Safari/iOS и встроенных iframe:
+    // так фокус гарантированно попадает в input, и виден мигающий курсор.
+    const focusInput=()=>{
+      if(cellEditorInput!==inp||!document.body.contains(inp))return;
+      inp.focus({preventScroll:true});
+      const len=inp.value.length;
+      inp.setSelectionRange(len,len);
+    };
+    requestAnimationFrame(()=>requestAnimationFrame(focusInput));
+    setTimeout(focusInput,0);
+  }
+
+  // ВАЖНО: начинаем редактирование уже на pointerdown/mousedown.
+  // Если ждать click, браузер может сначала сфокусировать контейнер таблицы,
+  // поэтому в ячейке не появляется активный мигающий курсор.
+  grid.addEventListener('mousedown',e=>{
+    const td=e.target.closest&&e.target.closest('td');
+    if(!td||e.target.classList.contains('cell-inline-input'))return;
+    e.preventDefault();
+    startCellEditor(Number(td.dataset.r),Number(td.dataset.c));
+  });
+
+  grid.addEventListener('touchstart',e=>{
+    const target=e.target;
+    const td=target.closest&&target.closest('td');
+    if(!td||target.classList.contains('cell-inline-input'))return;
+    e.preventDefault();
+    startCellEditor(Number(td.dataset.r),Number(td.dataset.c));
+  },{passive:false});
+
+  grid.addEventListener('dblclick',e=>{
+    const td=e.target.closest&&e.target.closest('td');
+    if(!td||e.target.classList.contains('cell-inline-input'))return;
+    e.preventDefault();
+    startCellEditor(Number(td.dataset.r),Number(td.dataset.c));
+  });
+  gridScroll.addEventListener('keydown',e=>{if(cellEditorInput||document.activeElement===formulaInput)return;if(e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();startCellEditor(selR,selC,e.key);}if(e.key==='F2'){e.preventDefault();startCellEditor(selR,selC);}});
+  formulaInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();commitValue(formulaInput.value);}});
+  formulaInput.addEventListener('blur',()=>{if(document.activeElement!==formulaInput)return;});
+  document.querySelectorAll('.rb,.quick-access button,.ribbon-tabs button,.fmt-select').forEach(el=>el.addEventListener('click',()=>showToast('В этом упражнении используйте ввод формул в ячейках или строке формул.')));
+  document.getElementById('refTab').addEventListener('click',()=>showToast('Задания выполняются на листе «Портфель полисов».'));
+  document.getElementById('btnCompleteOk').addEventListener('click',()=>document.getElementById('modalComplete').classList.remove('visible'));
+  document.getElementById('btnWelcomeOk').addEventListener('click',()=>{
+    document.getElementById('modalWelcome').classList.remove('visible');
+    gridScroll.focus();
+  });
+
+  function showToast(msg){toast.textContent=msg;toast.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('visible'),3600);}
+  function updateTaskBanner(){taskBanner.classList.remove('success');if(functionStep>=TASKS.length){taskText.textContent=COMPLETE;taskBanner.classList.add('success');return;}taskText.innerHTML=TASKS[functionStep].text;}
+  function checkTask(t,sh){if(t.check)return t.check(sh);const c=t.resultCol!==undefined?t.resultCol:RESULT_COL;const raw=getRawCell(sh,t.resultRow,c);return isFormulaValue(raw)&&formulaUsesFn(raw,t.fnNames)&&near(getCellComputed(sh,t.resultRow,c),t.expected);}
+  function checkProgress(){const sh=sheets[0];const t=TASKS[functionStep];if(t&&checkTask(t,sh)){functionStep++;updateTaskBanner();if(functionStep>=TASKS.length){document.getElementById('completeMessage').textContent=COMPLETE;document.getElementById('modalComplete').classList.add('visible');}else showToast('Задание выполнено — переходите к следующему.');}}
+
+  updateTaskBanner();
+  renderGrid();
+  document.getElementById('modalWelcome').classList.add('visible');
+})();
+</script>
+</body>
+</html>
